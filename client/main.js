@@ -11,14 +11,51 @@
 // 4. visible 활성 유틸 함수 만들기
 // 5. toggleState 유틸 함수 만들기 
 
-import { diceAnimation, disableElement, enableElement, getNode, invisibleElement, visibleElement } from "./lib/index.js";
+// [ 레코드 템플릿 뿌리기] [19 ~28]
+// 1. renderRecordListItem 함수 만들기
+// 2. HTML 템플릿 만들기
+// 3. 템플릿 뿌리기
 
+import { attr, clearContents, diceAnimation, disableElement, enableElement, getNode, getNodes, insertLast, invisibleElement, visibleElement } from "./lib/index.js";
 
-const rollingDiceButton = getNode('.buttonGroup > button:nth-child(1)');
+// 배열의 구조분해할당
+const [rollingDiceButton, recordButton, resetButton] = getNodes('.buttonGroup > button');
+/* const rollingDiceButton = getNode('.buttonGroup > button:nth-child(1)');
 const recordButton = getNode('.buttonGroup > button:nth-child(2)');
-const resetButton = getNode('.buttonGroup > button:nth-child(3)');
+const resetButton = getNode('.buttonGroup > button:nth-child(3)'); */
 
 const recordListWrapper = getNode('.recordListWrapper') // (14) .recordListWrapper getNode 한 것 변수에 담아줌
+
+
+/* -------------------------------------------------------------------------- */
+/* render                                                                     */
+/* -------------------------------------------------------------------------- */
+
+// 특정 대상의 속성값을 가져오거나 / 설정할 수 있는 함수
+let count = 0; // (23)
+let total = 0; // (25)
+
+function renderRecordListItem() { // (19) 레코드 리스트에 회차, 기록, 합계 가져오는 함수
+
+  let diceValue = attr('#cube', 'data-dice'); // (24)
+
+  // (20) 
+  let template = /* html */ ` 
+    <tr>
+      <td>${++count}</td>  <!-- (23) 처음부터 1 나오게 전위연산자 사용 -->
+      <td>${diceValue}</td> <!-- (24) -->
+      <td>${total += +diceValue}</td> <!-- (25) diceValue 문자이므로 형변환 --> 
+    </tr> 
+    `
+  insertLast('.recordListWrapper tbody', template); // (21) tbody의 마지막 자식요소 바로 다음에 template 삽입
+  recordListWrapper.scrollTop = recordListWrapper.scrollHeight; // (26) 스크롤 길이만큼 찍어줌, 알아서 스크롤바로 내려가는
+}
+
+
+
+/* -------------------------------------------------------------------------- */
+/* event                                                                      */
+/* -------------------------------------------------------------------------- */
 
 
 // (2) rollingDiceButton 이벤트핸들러 연결
@@ -47,11 +84,17 @@ const handlerRollingDice = () => {
 // (13) recordButton 이벤트핸들러 연결
 const handlerRecord = () => {
   visibleElement(recordListWrapper) // (15) 기록버튼 누르면 레코드리스트가 보임
+  renderRecordListItem(); // (22) 빼먹지마라...
 }
 
 // (16) resetButton 이벤트핸들러 연결
 const handlerReset = () => {
+
+  count = 0; // (27) 초기화버튼 누르면 전에 기록 모두 제거
+  total = 0; // (27) 초기화버튼 누르면 전에 기록 모두 제거
+
   invisibleElement(recordListWrapper) // (18) 초기화버튼 누르면 레코드리스트 사라짐
+  clearContents('.recordListWrapper tbody') // (28) 전에 기록 지우기
 }
 
 rollingDiceButton.addEventListener('click', handlerRollingDice()); // IIFE 사용하지 않고 클로저하면 뒤에 () 붙여야 함
