@@ -35,26 +35,12 @@ function xhrData(method, url, body) {
   xhr.send(JSON.stringify(body)); // 서버에 보내는거니깐 문자화
 }
 
-xhrData('POST','https://jsonplaceholder.typicode.com/users',{
-  "name": "kindtiger",
-  "username": "seonbeom",
-  "email": "tiger@euid.dev",
-  "address": {
-    "street": "Kulas Light",
-    "suite": "Apt. 556",
-    "city": "Gwenborough",
-    "zipcode": "92998-3874",
-    "geo": {
-      "lat": "-37.3159",
-      "lng": "81.1496"
-    }
-  },
-  "phone": "010-7169-0262",
-  "website": "hildegard.org",
-  "company": {
-    "name": "Romaguera-Crona",
-    "catchPhrase": "Multi-layered client-server neural-net",
-    "bs": "harness real-time e-markets"
+xhrData({
+  url:'https://jsonplaceholder.typicode.com/users',
+  method:'GET',
+  body:null,
+  headers:{
+    'Content-Type':'application/json'
   }
 })
 
