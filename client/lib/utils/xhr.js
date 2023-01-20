@@ -10,7 +10,7 @@
 
 // GET
 // argument에서 받을 것을 parameter로 받겠다. 
-function xhrData({ // 기본값 설정, default parameter
+export function xhrData({ // 기본값 설정, default parameter
   url = '',
   method = 'GET', 
   body = null,
@@ -62,10 +62,10 @@ xhrData.get = (url,onSuccess,onFail) =>{ // GET 통신만 body 없어도 됨
 // 예시 요러케~!
 /* xhrData.get(
   'https://jsonplaceholder.typicode.com/users',
-  (result)=>{
+  (result)=>{ // 성공하면
     console.log(result);
   },
-  (err)=>{
+  (err)=>{ // 실패하면
     console.log(err);
   }
 ) */
@@ -98,3 +98,13 @@ xhrData.delete = (url,body,onSuccess,onFail) =>{
     onFail
   })
 }
+
+/* xhrData.delete(
+  'https://jsonplaceholder.typicode.com/users/3',
+  (result)=>{
+    console.log(result);
+  },
+  (err)=>{
+    console.log(err);
+  }
+) */
