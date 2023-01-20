@@ -10,7 +10,7 @@
 
 // GET
 // argument에서 받을 것을 parameter로 받겠다. 
-function xhrData({
+function xhrData({ // 기본값 설정, default parameter
   url = '',
   method = 'GET',
   body = null,
@@ -22,14 +22,10 @@ function xhrData({
 
 }){
   const xhr = new XMLHttpRequest();
-  console.log(xhr);
+  // console.log(xhr);
 
   // 비동기 통신 오픈
   xhr.open(method, url);
-
-  // Object.entries(headers).forEach(([key,value])=>{
-  //   xhr.setRequestHeader(key,value);
-  // })
 
   // 변경이 일어날때마다 호출하는 역할 (readyState가 change됬을 때 발생하는 이벤트)
   xhr.addEventListener('readystatechange', () => {
@@ -38,8 +34,7 @@ function xhrData({
 
     if (status >= 200 && status < 400) { // 오류 처리
       if (readyState === 4) { // 2,3,4 단계마다 출력하지말고 complete 했을 때만 찍혀라
-        // console.log('통신 성공');
-        console.log(JSON.parse(response)); // 응답을 우리가 봐야하니까 객체화 시킴
+        onSuccess(JSON.parse(response)) // 객체화, onSuccess 함수 이용, argument에 users/1 만 보냄
       }
     } else {
       console.error('통신 실패');
@@ -52,25 +47,13 @@ function xhrData({
 
 // argument 적어짐
 xhrData({
-  url:'https://jsonplaceholder.typicode.com/users/1',
-  onSuccess: () => {
-
+  url:'https://jsonplaceholder.typicode.com/users/1', // 1만 보냄
+  onSuccess: (result) => {
+    console.log(result);
   }
 })
 
-
-/*
-내부 동작 원리 -> 객체 통째로 받음 
-function xhrData(options) {
-  const options = {
-    url = '',
-    method = 'GET',
-    body = null,
-    onSuccess = null,
-    headers = {
-      'Content-Type':'application/json',
-    }
-  }
-}
-const {url, method, body} = options
+/* 출력 결과
+{id: 1, name: 'Leanne Graham', username: 'Bret', email: 'Sincere@april.biz', address: {…}, …} 
+url:'https://jsonplaceholder.typicode.com/users/1' -> 1만 GET 해라
 */
