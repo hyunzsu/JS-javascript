@@ -57,3 +57,28 @@ xhrData({
 {id: 1, name: 'Leanne Graham', username: 'Bret', email: 'Sincere@april.biz', address: {…}, …} 
 url:'https://jsonplaceholder.typicode.com/users/1' -> 1만 GET 해라
 */
+
+/* 
+콜백함수 Ex)
+let movePage = function (주소,성공,실패){
+  // 조건에 따라 조건이 잘 맞으면 성공() || 실패()
+  if(주소 === '네이버'){
+    성공(주소);
+  }else{
+    실패();
+  }
+};
+
+movePage(
+  '네이바',
+  (주소)=>{
+    console.log('3초후 '+ 주소 +'로 이동합니다.');
+    setTimeout(() => {
+      window.location.href = 'https://www.naver.com/'
+    }, 3000);
+  }
+  ,
+  ()=>{
+    console.log('잘못된 주소를 입력했습니다.');
+  })
+ */
