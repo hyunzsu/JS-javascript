@@ -8,18 +8,33 @@
 
 // import { typeError } from '../error/typeError.js';
 
-// POST (통신body 필요!) 시작 - users에 새롭게 추가, 포스팅
-function xhrData(method, url, body) {
+// GET
+// argument에서 받을 것을 parameter로 받겠다. 
+function xhrData({
+  url = '',
+  method = 'GET',
+  body = null,
+  onSuccess = null,
+  headers = {
+    'Content-Type':'application/json',
+    'Access-Control-Allow-Origin': '*',
+  },
+
+}){
   const xhr = new XMLHttpRequest();
+  console.log(xhr);
 
   // 비동기 통신 오픈
   xhr.open(method, url);
 
+  // Object.entries(headers).forEach(([key,value])=>{
+  //   xhr.setRequestHeader(key,value);
+  // })
+
   // 변경이 일어날때마다 호출하는 역할 (readyState가 change됬을 때 발생하는 이벤트)
   xhr.addEventListener('readystatechange', () => {
 
-    // 객체 구조 분해 할당!!!!
-    const {status, readyState, response} = xhr;
+    const {status, readyState, response} = xhr; // 객체 구조 분해 할당!!!!
 
     if (status >= 200 && status < 400) { // 오류 처리
       if (readyState === 4) { // 2,3,4 단계마다 출력하지말고 complete 했을 때만 찍혀라
@@ -35,12 +50,27 @@ function xhrData(method, url, body) {
   xhr.send(JSON.stringify(body)); // 서버에 보내는거니깐 문자화
 }
 
+// argument 적어짐
 xhrData({
-  url:'https://jsonplaceholder.typicode.com/users',
-  method:'GET',
-  body:null,
-  headers:{
-    'Content-Type':'application/json'
+  url:'https://jsonplaceholder.typicode.com/users/1',
+  onSuccess: () => {
+
   }
 })
 
+
+/*
+내부 동작 원리 -> 객체 통째로 받음 
+function xhrData(options) {
+  const options = {
+    url = '',
+    method = 'GET',
+    body = null,
+    onSuccess = null,
+    headers = {
+      'Content-Type':'application/json',
+    }
+  }
+}
+const {url, method, body} = options
+*/
