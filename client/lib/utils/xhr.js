@@ -12,9 +12,10 @@
 // argument에서 받을 것을 parameter로 받겠다. 
 function xhrData({ // 기본값 설정, default parameter
   url = '',
-  method = 'GET',
+  method = 'GET', 
   body = null,
   onSuccess = null,
+  onFail = null,
   headers = {
     'Content-Type':'application/json',
     'Access-Control-Allow-Origin': '*',
@@ -37,7 +38,8 @@ function xhrData({ // 기본값 설정, default parameter
         onSuccess(JSON.parse(response)) // 객체화, onSuccess 함수 이용, argument에 users/1 만 보냄
       }
     } else {
-      console.error('통신 실패');
+      // console.error('통신 실패');
+      onFail('통신 실패')
     }
   });
 
@@ -45,40 +47,54 @@ function xhrData({ // 기본값 설정, default parameter
   xhr.send(JSON.stringify(body)); // 서버에 보내는거니깐 문자화
 }
 
-// argument 적어짐
-xhrData({
-  url:'https://jsonplaceholder.typicode.com/users/1', // 1만 보냄
-  onSuccess: (result) => {
-    console.log(result);
-  }
-})
 
-/* 출력 결과
-{id: 1, name: 'Leanne Graham', username: 'Bret', email: 'Sincere@april.biz', address: {…}, …} 
-url:'https://jsonplaceholder.typicode.com/users/1' -> 1만 GET 해라
-*/
-
-/* 
-콜백함수 Ex)
-let movePage = function (주소,성공,실패){
-  // 조건에 따라 조건이 잘 맞으면 성공() || 실패()
-  if(주소 === '네이버'){
-    성공(주소);
-  }else{
-    실패();
-  }
-};
-
-movePage(
-  '네이바',
-  (주소)=>{
-    console.log('3초후 '+ 주소 +'로 이동합니다.');
-    setTimeout(() => {
-      window.location.href = 'https://www.naver.com/'
-    }, 3000);
-  }
-  ,
-  ()=>{
-    console.log('잘못된 주소를 입력했습니다.');
+// 콜백함수 이용
+// xhrData라는 함수(객체)안에 get이라는 키를 만들고, 그 안의 값은 (url, onSuccess, onFail을 parameter로 받는) 함수
+// 이렇게 argument 선언해 두면 밑에처럼 쓰임
+xhrData.get = (url,onSuccess,onFail) =>{ // GET 통신만 body 없어도 됨
+  xhrData({
+    url, // url: url 단축표기법
+    onSuccess,
+    onFail
   })
- */
+}
+
+// 예시 요러케~!
+/* xhrData.get(
+  'https://jsonplaceholder.typicode.com/users',
+  (result)=>{
+    console.log(result);
+  },
+  (err)=>{
+    console.log(err);
+  }
+) */
+
+xhrData.post = (url,body,onSuccess,onFail) =>{
+  xhrData({
+    method:'POST',
+    body,
+    url,
+    onSuccess,
+    onFail
+  })
+}
+
+xhrData.put = (url,body,onSuccess,onFail) =>{
+  xhrData({
+    method:'PUT',
+    body,
+    url,
+    onSuccess,
+    onFail
+  })
+}
+
+xhrData.delete = (url,body,onSuccess,onFail) =>{
+  xhrData({
+    method:'DELETE',
+    url,
+    onSuccess,
+    onFail
+  })
+}
