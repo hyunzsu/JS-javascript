@@ -46,7 +46,7 @@ export function xhrData({ // 기본값 설정, default parameter
   });
 
   // 서버에 요청
-  xhr.send(JSON.stringify(body)); // 서버에 보내는거니깐 문자화
+  xhr.send(JSON.stringify(body)); // 서버에 보내는거니깐 문자화, body -> 개발자가 추가할 json 내용
 }
 
 

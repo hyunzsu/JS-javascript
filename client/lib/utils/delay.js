@@ -94,3 +94,33 @@ export function delayP(options = {}) {
 }).then((res) => {
   console.log(res); // 안녕
 }) */
+
+
+// async : promise를 반환하는 함수로 만든다.
+// await : 1. promise가 반환하는 result를 가져오기
+//       : 2. 코드 실행 흐름 제어
+
+// async await
+async function delayA() {
+  return '완료'
+}
+let result = await delayA();
+
+console.log(result); // 완료
+
+/*
+// function 앞에 async를 붙이면 해당 함수는 항상 프라미스를 반환~!!!
+async function F(){
+	return 1;
+} 
+console.log(F().then())// Promise, [PromiseState]: 'fulfilled', [PromiseResult]: 1
+
+function F(){
+	return Promise.resolve(1);
+}
+console.log(F().then())// Promise, [PromiseState]: 'fulfilled', [PromiseResult]: 1
+
+// await은 async 함수 안에서만 동작함
+// 기존에 resolve 함수가 리턴하는 값을 async가 붙은 함수를 실행할 떄 await을 붙여주면 얻을수 있다
+// async - await 패턴을 사용하는 경우엔 reject는 정의가 안되어 있으니까 try catch를 사용
+*/
