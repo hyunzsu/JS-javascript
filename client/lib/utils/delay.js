@@ -68,7 +68,7 @@ const defaultOptions = {
   errorMessage: '알 수 없는 오류가 발생했습니다.'
 }
 
-function delayP(options = {}) {
+export function delayP(options = {}) {
 
   // defaultOptions
   let config = {...defaultOptions} // 얕복, 새롭게 담김, 왜 하냐? 참조에 의한 복사하면 기존 값까지 바뀌어버리는 사태가 발생...!
@@ -89,8 +89,8 @@ function delayP(options = {}) {
   })
 }
 
-delayP({
+/* delayP({
   data: '안녕',
 }).then((res) => {
   console.log(res); // 안녕
-})
+}) */
