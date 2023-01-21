@@ -126,20 +126,25 @@ console.log(F().then())// Promise, [PromiseState]: 'fulfilled', [PromiseResult]:
 */
 
 // 라면끓이기 async await
+// try..catch -> 오류가 나타날 가능성이 있는 코드를 try{}안에 넣어 놓으면 인접한 catch가 에러를 넘겨받고 첫번째 인자에 에러에 대한 에러 오브젝트가 들어감
 async function 라면끓이기() {
-  await delayP(1500)
-  first.style.top = '-100px';
+  try{
+    await delayP(1500)
+    first.style.top = '-100px';
 
-  await delayP(1500)
-  first.style.transform = 'rotate(360deg)';
+    await delayP(1500)
+    first.style.transform = 'rotate(360deg)';
 
-  await delayP(1500)
-  first.style.top = '0px';
+    await delayP(1500)
+    first.style.top = '0px';
 
-  await delayP(1500)
-  console.log('계란넣기');
+    await delayP(1500)
+    console.log('계란넣기');
 
-  await delayP(1500)
-  console.log('그릇에 담기');
+    await delayP(1500)
+    console.log('그릇에 담기');
+  } catch(err) {
+    console.log(err);
+  }
 }
 라면끓이기();
