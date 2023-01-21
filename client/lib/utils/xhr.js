@@ -10,6 +10,8 @@
 
 // GET
 // argument에서 받을 것을 parameter로 받겠다. 
+
+// 콜백 방식
 export function xhrData({ // 기본값 설정, default parameter
   url = '',
   method = 'GET', 
@@ -48,6 +50,7 @@ export function xhrData({ // 기본값 설정, default parameter
 }
 
 
+// shorthand property
 // 콜백함수 이용
 // xhrData라는 함수(객체)안에 get이라는 키를 만들고, 그 안의 값은 (url, onSuccess, onFail을 parameter로 받는) 함수
 // 이렇게 argument 선언해 두면 밑에처럼 쓰임
@@ -108,3 +111,53 @@ xhrData.delete = (url,body,onSuccess,onFail) =>{
     console.log(err);
   }
 ) */
+
+
+// xhrData -> xhrPromise
+// xhrData promise API 만들기
+const defaultOptions = {
+  url: '',
+  method: 'GET',
+  headers: {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+  },
+  body: null
+}
+
+function xhrPromise(options = {}) { // options의 기본값은 객체로 하겠다
+
+  const xhr = new XMLHttpRequest();
+
+  // {...defaultOptions, ...options};랑 Object.assign({}, defualtOptions, options);랑 같음 => 얕복 후 바로 구조분해할당
+  const {method, url, body, headers} = Object.assign({}, defaultOptions, options); // {}는 새로운 객체를 만들겠다, {}에 다 떄려박음
+
+  xhr.open(method, url);
+
+  xhr.send(body ? JSON.stringify(body) : null) // body 있으면~, 없으면 null, 밑에거 대신
+  // xhr.send(body); // return 밑에 넣으면 종료되니까 올려줌
+
+  return new Promise((resolve, reject) => {
+    xhr.addEventListener('readystatechange', () => {
+      const {status, readyState, response} = xhr; // 객체 구조 분해 할당
+
+      if (status >= 200 && status < 400) {
+        if(readyState === 4) {
+          resolve(JSON.parse(response)); // onSuccess
+        }
+      } else {
+        reject('에러입니다.'); // onFail
+      }
+    })
+  })
+}
+
+xhrPromise({
+  url: 'https://jsonplaceholder.typicode.com/users/1'
+})
+.then((res) => {
+  console.log(res); // {id: 1, name: 'Leanne Graham', username: 'Bret', email: 'Sincere@april.biz', address: {…}, …}
+})
+.catch((err) => {
+  console.log(err);
+})
