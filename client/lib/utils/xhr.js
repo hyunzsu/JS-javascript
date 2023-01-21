@@ -54,6 +54,8 @@ export function xhrData({ // 기본값 설정, default parameter
 // 콜백함수 이용
 // xhrData라는 함수(객체)안에 get이라는 키를 만들고, 그 안의 값은 (url, onSuccess, onFail을 parameter로 받는) 함수
 // 이렇게 argument 선언해 두면 밑에처럼 쓰임
+
+// GET
 xhrData.get = (url,onSuccess,onFail) =>{ // GET 통신만 body 없어도 됨
   xhrData({
     url, // url: url 단축표기법
@@ -73,6 +75,7 @@ xhrData.get = (url,onSuccess,onFail) =>{ // GET 통신만 body 없어도 됨
   }
 ) */
 
+// POST
 xhrData.post = (url,body,onSuccess,onFail) =>{
   xhrData({
     method:'POST',
@@ -83,6 +86,7 @@ xhrData.post = (url,body,onSuccess,onFail) =>{
   })
 }
 
+// PUT
 xhrData.put = (url,body,onSuccess,onFail) =>{
   xhrData({
     method:'PUT',
@@ -93,6 +97,7 @@ xhrData.put = (url,body,onSuccess,onFail) =>{
   })
 }
 
+// DELETE
 xhrData.delete = (url,body,onSuccess,onFail) =>{
   xhrData({
     method:'DELETE',
@@ -125,7 +130,7 @@ const defaultOptions = {
   body: null
 }
 
-function xhrPromise(options = {}) { // options의 기본값은 객체로 하겠다
+export function xhrPromise(options = {}) { // options의 기본값은 객체로 하겠다
 
   const xhr = new XMLHttpRequest();
 
@@ -152,7 +157,8 @@ function xhrPromise(options = {}) { // options의 기본값은 객체로 하겠�
   })
 }
 
-xhrPromise({
+// 비동기통신에서 user1의 값을 GET
+/* xhrPromise({
   url: 'https://jsonplaceholder.typicode.com/users/1'
 })
 .then((res) => {
@@ -160,4 +166,47 @@ xhrPromise({
 })
 .catch((err) => {
   console.log(err);
+}) */
+
+// shorthand property
+// GET
+xhrPromise.get = (url) => {
+  return xhrPromise({
+    url
+  })
+}
+
+/* xhrPromise
+.get('www.naver.com')
+.then((res) => {
+  console.log(res);
 })
+.catch((err) => {
+  console.log(err);
+}) */
+
+// POST
+xhrPromise.post = (url, body) => {
+  return xhrPromise({
+    url,
+    body,
+    method:'POST'
+  })
+}
+
+// PUT
+xhrPromise.put = (url, body) => {
+  return xhrPromise({
+    url,
+    body,
+    method: 'PUT'
+  })
+}
+
+// DELETE
+xhrPromise.delete = (url) => {
+  return xhrPromise({
+    url,
+    method: 'DELETE'
+  })
+}
