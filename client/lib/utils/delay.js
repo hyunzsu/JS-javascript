@@ -124,3 +124,22 @@ console.log(F().then())// Promise, [PromiseState]: 'fulfilled', [PromiseResult]:
 // 기존에 resolve 함수가 리턴하는 값을 async가 붙은 함수를 실행할 떄 await을 붙여주면 얻을수 있다
 // async - await 패턴을 사용하는 경우엔 reject는 정의가 안되어 있으니까 try catch를 사용
 */
+
+// 라면끓이기 async await
+async function 라면끓이기() {
+  await delayP(1500)
+  first.style.top = '-100px';
+
+  await delayP(1500)
+  first.style.transform = 'rotate(360deg)';
+
+  await delayP(1500)
+  first.style.top = '0px';
+
+  await delayP(1500)
+  console.log('계란넣기');
+
+  await delayP(1500)
+  console.log('그릇에 담기');
+}
+라면끓이기();
