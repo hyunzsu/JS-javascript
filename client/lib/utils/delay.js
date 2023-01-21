@@ -101,12 +101,15 @@ export function delayP(options = {}) {
 //       : 2. 코드 실행 흐름 제어
 
 // async await
+/*
 async function delayA() {
   return '완료'
 }
 let result = await delayA();
 
 console.log(result); // 완료
+*/
+
 
 /*
 // function 앞에 async를 붙이면 해당 함수는 항상 프라미스를 반환~!!!
@@ -127,6 +130,7 @@ console.log(F().then())// Promise, [PromiseState]: 'fulfilled', [PromiseResult]:
 
 // 라면끓이기 async await
 // try..catch -> 오류가 나타날 가능성이 있는 코드를 try{}안에 넣어 놓으면 인접한 catch가 에러를 넘겨받고 첫번째 인자에 에러에 대한 에러 오브젝트가 들어감
+/* 
 async function 라면끓이기() {
   try{
     await delayP(1500)
@@ -148,3 +152,4 @@ async function 라면끓이기() {
   }
 }
 라면끓이기();
+*/
