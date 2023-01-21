@@ -15,7 +15,7 @@ const defaultOptions = {
 }
 
 
-const tiger = async (options = {}) => {
+export const tiger = async (options = {}) => {
 
   // 객체합성과 동시에 url, ...restOptions(url을 제외한 나머지 객체?)만 구조분해할당
   const {url, ...restOptions} = {
@@ -39,5 +39,39 @@ const tiger = async (options = {}) => {
 
 // tiger();
 
+// GET
+tiger.get = (url,options) => {
+  tiger({
+    url,
+    ...options
+  })
+}
 
+// POST
+tiger.post = (url, body, options) => {
+  tiger({
+    method: 'POST',
+    url,
+    body: JSON.stringify(body),
+    ...options
+  })
+}
 
+// PUT
+tiger.put = (url, body, options) => {
+  tiger({
+    method: 'PUT',
+    url,
+    body: JSON.stringify(body),
+    ...options
+  })
+}
+
+// DELETE
+tiger.delete = (url, options) => {
+  tiger({
+    method: 'DELETE',
+    url,
+    ...options
+  })
+}
