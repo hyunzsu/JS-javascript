@@ -1,10 +1,12 @@
 
 // fetch
+// xhr의 기능을 훨씬 쉽게 open, send 필요 ❌
+// url 던지고 options...
 
 const defaultOptions = {
   method: 'GET',
   mode: 'cors',
-  body:null,
+  body: null,
   cache: 'no-cache',
   credential: 'same-origin',
   redirect:'follow',
@@ -17,7 +19,7 @@ const defaultOptions = {
 
 export const tiger = async (options = {}) => {
 
-  // 객체합성과 동시에 url, ...restOptions(url을 제외한 나머지 객체?)만 구조분해할당
+  // 객체합성과 동시에 url, ...restOptions(url을 존재하지 않은 나머지 객체?)만 구조분해할당
   const {url, ...restOptions} = {
     ...defaultOptions,
     ...options,
@@ -25,13 +27,11 @@ export const tiger = async (options = {}) => {
   }
   // console.log(restOptions);
 
-  let response = await fetch(url, restOptions) // 문법이 이럼
+  let response = await fetch(url, restOptions) // 문법이 이렇게 생겨먹음
 
   if (response.ok) { // fetch가 완료되었다면
     response.data = await response.json() // data 추가, response 안에 있는 json 값을 가져옴 -> await은 값을 가져오는거니깐
   }
-  
-  // console.log(response);
 
   return response;
 
@@ -40,8 +40,8 @@ export const tiger = async (options = {}) => {
 // tiger();
 
 // GET
-tiger.get = (url,options) => {
-  tiger({
+tiger.get = async (url,options) => {
+  return tiger({
     url,
     ...options
   })
@@ -49,7 +49,7 @@ tiger.get = (url,options) => {
 
 // POST
 tiger.post = (url, body, options) => {
-  tiger({
+  return tiger({
     method: 'POST',
     url,
     body: JSON.stringify(body),
@@ -59,7 +59,7 @@ tiger.post = (url, body, options) => {
 
 // PUT
 tiger.put = (url, body, options) => {
-  tiger({
+  return tiger({
     method: 'PUT',
     url,
     body: JSON.stringify(body),
@@ -69,7 +69,7 @@ tiger.put = (url, body, options) => {
 
 // DELETE
 tiger.delete = (url, options) => {
-  tiger({
+  return tiger({
     method: 'DELETE',
     url,
     ...options
